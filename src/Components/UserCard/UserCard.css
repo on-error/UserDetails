@@ -1,0 +1,35 @@
+.user-card{
+  padding: .25rem .5rem;
+  box-shadow: 10px 5px 5px rgb(186, 185, 185);
+  border-color: #dde9cd;
+  border-style:solid;
+  border-left-color: rgb(50, 197, 50);
+  border-radius: 8px;
+  min-height: 80px;
+  padding: 6px;
+  font-size: 15px;
+  margin: 10px;
+  position: relative;
+  overflow: hidden; 
+  transition: height 1000ms;
+  word-wrap: break-word;
+}
+
+.title{
+  font-weight: bold;
+}
+
+.user-card.is-active {
+  min-height: 160px;
+}
+
+.actions {
+  display: flex;
+  /* flex-wrap: wrap; */
+  align-content: space-between;
+}
+
+.delete{
+  margin-left: auto;
+  cursor: pointer;
+}
