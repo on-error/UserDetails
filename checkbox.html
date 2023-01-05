@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Test</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    />
+    <style>
+      #search-bar {
+        height: 46px;
+        border-radius: 48px;
+        border: 0.5px solid lightgrey;
+        width: 100%;
+        padding-right: 40px;
+        padding-left: 10px;
+      }
+
+      #search-btn {
+        height: 46px;
+        border-top-right-radius: 48px;
+        border-bottom-right-radius: 48px;
+        padding: 15px;
+        font-size: 1.1em;
+        position: absolute;
+        right: 15px;
+        border-left: 0.5px solid lightgrey;
+      }
+
+      .menu-btn {
+        border-radius: 48px;
+        border: 0.5px solid lightgrey;
+        font-size: 0.9em;
+        padding: 2px 10px;
+        background-color: white;
+      }
+
+      .menu {
+        padding-top: 10px;
+        z-index: 200;
+        margin-top: 4px;
+        background-color: white;
+        position: absolute;
+      }
+
+      .menu-option {
+        padding: 6px 20px 6px;
+      }
+
+      #overlay {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+      }
+    </style>
+  </head>
+  <body>
+    <form class="p-3">
+      <div class="col-12 col-md-8 container">
+        <div class="row col-11">
+          <div>
+            <button
+              onclick="dropDown(event);"
+              class="menu-btn"
+              id="resultHere"
+              type="button"
+            >
+              Menu 1 &#9013;
+            </button>
+            <div class="d-none shadow rounded menu">
+              <span class="d-block menu-option"
+                ><label
+                  ><input type="checkbox" id="all" />&nbsp; All</label
+                ></span
+              >
+              <span class="d-block menu-option"
+                ><label
+                  ><input type="checkbox" id="op1" />&nbsp; Option 1</label
+                ></span
+              >
+              <span class="d-block menu-option"
+                ><label
+                  ><input type="checkbox" id="op2" />&nbsp; Option 2</label
+                ></span
+              >
+              <span class="d-block menu-option"
+                ><label
+                  ><input type="checkbox" id="op3" />&nbsp; Option 3</label
+                ></span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-none" id="overlay" onclick="hide(event)"></div>
+    </form>
+    <script>
+      const MENU_OPTIONS = ['all', 'op1', 'op2', 'op3'];
+      let menuIds = MENU_OPTIONS;
+      let result = 'All';
+      document.getElementById('resultHere').innerHTML = result;
+
+      menuIds.map((item) => {
+        const checkbox = document.getElementById(item);
+        checkbox.checked = true;
+
+        //adding event listener to each checkbox option
+
+        checkbox.addEventListener('change', (event) => {
+          // if the checkbox clicked is not checked then
+          // we remove that ID from our list else if doesn't exist
+          // in our list we add it in our list.
+
+          if (!event.target.checked) {
+            if (event.target.id === 'all') {
+              allOptionSelected(false);
+              return;
+            } else {
+              menuIds = menuIds.filter((option) => {
+                if (event.target.id === option) return false;
+                else if ('all' === option) return false;
+                return true;
+              });
+              document.getElementById('all').checked = false;
+              if (menuIds.length === 0) {
+                allOptionSelected(false);
+                return;
+              }
+            }
+          } else if (!menuIds.includes(event.target.id)) {
+            if (event.target.id === 'all') {
+              allOptionSelected(true);
+              return;
+            } else {
+              menuIds.push(item);
+              if (menuIds.length === 3) {
+                allOptionSelected(true);
+                return;
+              }
+            }
+          }
+          displayResultWhenSelected();
+        });
+      });
+
+      function dropDown(event) {
+        event.target.parentElement.children[1].classList.remove('d-none');
+        document.getElementById('overlay').classList.remove('d-none');
+      }
+
+      function hide(event) {
+        var items = document.getElementsByClassName('menu');
+        for (let i = 0; i < items.length; i++) {
+          items[i].classList.add('d-none');
+        }
+        document.getElementById('overlay').classList.add('d-none');
+      }
+
+      function displayResultWhenSelected() {
+        result = '';
+        menuIds.map((item) => {
+          const checkbox = document.getElementById(item);
+          checkbox.checked = true;
+          result += item + ',';
+        });
+        document.getElementById('resultHere').innerHTML = result;
+      }
+
+      function allOptionSelected(checked) {
+        if (!checked) {
+          result = 'None Selected';
+          menuIds.map((item) => {
+            document.getElementById(item).checked = false;
+          });
+          menuIds = [];
+        } else {
+          result = 'All selected';
+          menuIds = MENU_OPTIONS;
+          menuIds.map((item) => {
+            document.getElementById(item).checked = true;
+          });
+        }
+        document.getElementById('resultHere').innerHTML = result;
+      }
+    </script>
+  </body>
+</html>
