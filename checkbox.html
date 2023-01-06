@@ -109,54 +109,54 @@
       const MENU_OPTIONS = ['all', 'op1', 'op2', 'op3'];
       let menuIds = MENU_OPTIONS;
       let result = 'All';
-      document.getElementById('resultHere').innerHTML = result;
-
-      menuIds.map((item) => {
-        const checkbox = document.getElementById(item);
-        checkbox.checked = true;
-
-        //adding event listener to each checkbox option
-
-        checkbox.addEventListener('change', (event) => {
-          // if the checkbox clicked is not checked then
-          // we remove that ID from our list else if doesn't exist
-          // in our list we add it in our list.
-
-          if (!event.target.checked) {
-            if (event.target.id === 'all') {
-              allOptionSelected(false);
-              return;
-            } else {
-              menuIds = menuIds.filter((option) => {
-                if (event.target.id === option) return false;
-                else if ('all' === option) return false;
-                return true;
-              });
-              document.getElementById('all').checked = false;
-              if (menuIds.length === 0) {
-                allOptionSelected(false);
-                return;
-              }
-            }
-          } else if (!menuIds.includes(event.target.id)) {
-            if (event.target.id === 'all') {
-              allOptionSelected(true);
-              return;
-            } else {
-              menuIds.push(item);
-              if (menuIds.length === 3) {
-                allOptionSelected(true);
-                return;
-              }
-            }
-          }
-          displayResultWhenSelected();
-        });
-      });
 
       function dropDown(event) {
         event.target.parentElement.children[1].classList.remove('d-none');
         document.getElementById('overlay').classList.remove('d-none');
+        document.getElementById('resultHere').innerHTML = result;
+
+        menuIds.map((item) => {
+          const checkbox = document.getElementById(item);
+          checkbox.checked = true;
+
+          //adding event listener to each checkbox option
+
+          checkbox.addEventListener('change', (event) => {
+            // if the checkbox clicked is not checked then
+            // we remove that ID from our list else if doesn't exist
+            // in our list we add it in our list.
+
+            if (!event.target.checked) {
+              if (event.target.id === 'all') {
+                allOptionSelected(false);
+                return;
+              } else {
+                menuIds = menuIds.filter((option) => {
+                  if (event.target.id === option) return false;
+                  else if ('all' === option) return false;
+                  return true;
+                });
+                document.getElementById('all').checked = false;
+                if (menuIds.length === 0) {
+                  allOptionSelected(false);
+                  return;
+                }
+              }
+            } else if (!menuIds.includes(event.target.id)) {
+              if (event.target.id === 'all') {
+                allOptionSelected(true);
+                return;
+              } else {
+                menuIds.push(item);
+                if (menuIds.length === 3) {
+                  allOptionSelected(true);
+                  return;
+                }
+              }
+            }
+            displayResultWhenSelected();
+          });
+        });
       }
 
       function hide(event) {
